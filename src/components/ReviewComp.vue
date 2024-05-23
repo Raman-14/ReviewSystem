@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="review-card" v-for="(review, index) in reviews" :key="index">
-      <p>{{ review }}</p>
+      <p>{{ review.text }}</p>
+      <p>Rating: {{ review.rating }}</p>
     </div>
   </div>
 </template>

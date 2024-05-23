@@ -3,10 +3,10 @@
     <span 
       v-for="star in 5" 
       :key="star" 
-      :class="{'filled': star <= currentRating}" 
+      :class="{'filled': star <= hoverRating || (hoverRating === 0 && star <= currentRating)}"
       @click="setRating(star)"
-      @mouseover="hoverRating(star)"
-      @mouseleave="hoverRating(currentRating)"
+      @mouseover="setHoverRating(star)"
+      @mouseleave="setHoverRating(0)"
     >&#9733;</span>
   </div>
 </template>
@@ -19,20 +19,22 @@ export default {
   emits: ['update:rating'],
   setup(_, { emit }) {
     const currentRating = ref(0);
+    const hoverRating = ref(0);
 
     const setRating = (rating) => {
       currentRating.value = rating;
       emit('update:rating', rating);
     };
 
-    const hoverRating = (rating) => {
-      currentRating.value = rating;
+    const setHoverRating = (rating) => {
+      hoverRating.value = rating;
     };
 
     return {
       currentRating,
+      hoverRating,
       setRating,
-      hoverRating
+      setHoverRating
     };
   }
 }

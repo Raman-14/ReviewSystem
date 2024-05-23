@@ -1,33 +1,30 @@
 <template>
   <div class="grid-container">
     <div class="col1">
-    <SubmitReview @submit-review="addReview"/>
-    <RatingStar class="rating"/>
-  </div>
-  <div class="col2">
-    <ReviewComp :reviews="reviews"/>
-  </div>
+      <SubmitReview @submit-review="addReview" />
+    </div>
+    <div class="col2">
+      <ReviewComp :reviews="reviews" />
+    </div>
   </div>
 </template>
 
 <script>
 import { ref } from 'vue';
 import SubmitReview from "./components/SubmitReview.vue";
-import RatingStar from "./components/RatingStar.vue";
 import ReviewComp from "./components/ReviewComp.vue";
 
 export default {
   name: 'App',
   components: {
     SubmitReview,
-    RatingStar,
     ReviewComp,
   },
   setup() {
     const reviews = ref([]);
 
-    const addReview = (text) => {
-      reviews.value.push(text);
+    const addReview = (review) => {
+      reviews.value.push(review);
     };
 
     return {
@@ -46,12 +43,21 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   margin-top: 121px;
 }
-.rating{
-  margin-top:50px;
+
+.rating {
+  margin-top: 50px;
 }
 
 .grid-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
+}
+
+.col1 {
+  padding-right: 20px;
+}
+
+.col2 {
+  padding-left: 20px;
 }
 </style>

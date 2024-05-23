@@ -1,39 +1,58 @@
 <template>
   <div class="r1">
-    <div><p class="rate">Rate & Review Camp</p></div>
+    <div>
+      <p class="rate">Rate & Review Camp</p>
+    </div>
+    <RatingStar @update:rating="updateRating" class="rating" />
     <div class="textArea">
-      <!-- Ensure there's no content between the <textarea> tags -->
-   <textarea v-model="inputText" placeholder="Post your review 240 max characters" rows="8" cols="50"></textarea>
-    <button @click="submitReview">Submit</button>
+      <textarea 
+        v-model="inputText" 
+        placeholder="Post your review (240 max characters)" 
+        rows="8" 
+        cols="50">
+      </textarea>
+      <button @click="submitReview">Submit</button>
     </div>
   </div>
 </template>
 
 <script>
 import { ref } from 'vue';
+import RatingStar from './RatingStar.vue';
 
 export default {
   name: 'SubmitReview',
+  components: {
+    RatingStar
+  },
   setup(props, { emit }) {
     const inputText = ref('');
+    const currentRating = ref(0);
 
-   const submitReview = () => {
-      if (inputText.value.trim()) {
-        emit('submit-review', inputText.value);
+    const updateRating = (rating) => {
+      currentRating.value = rating;
+    };
+
+    const submitReview = () => {
+      if (inputText.value.trim() && currentRating.value > 0) {
+        emit('submit-review', { text: inputText.value, rating: currentRating.value });
         inputText.value = '';  // Clear the textarea after submitting
+        currentRating.value = 0; // Reset the rating after submitting
       }
     };
 
     return {
       inputText,
-      submitReview
+      currentRating,
+      submitReview,
+      updateRating
     };
   }
 }
 </script>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap');
 
 .textArea {
   width: 504px;
@@ -52,17 +71,18 @@ export default {
   padding: 10px;
   background-color: #d9d9d9;
 }
+
 .rate {
   font-family: 'Mulish', sans-serif;
   font-size: 28px;
   font-weight: 500;
 }
-.r1{
+
+.r1 {
   display: flex;
   flex-direction: column;
-
-
 }
+
 button {
   margin-top: 10px;
   font-family: 'Mulish', sans-serif;
