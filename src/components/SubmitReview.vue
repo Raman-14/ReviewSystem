@@ -12,13 +12,13 @@
         cols="50">
       </textarea>
     </div>
-    <button @click="submitReview">Submit</button>
 
     <div class="ratings">
       <div v-for="(heading, index) in headings" :key="index" class="rating">
         <RatingStar :ratingHeading="heading" :selectStars="selectedStars[index]" @update:rating="updateRating(index, $event)" />
       </div>
     </div>
+    <button @click="submitReview">Submit</button>
 
   </div>
 </template>
