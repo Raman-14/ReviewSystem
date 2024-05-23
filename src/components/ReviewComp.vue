@@ -31,8 +31,12 @@
         <p>Cleanliness: {{ review.rating4 }}</p>
       </div>
       <div class="actions">
+      <div>
         <button @click="deleteReview(index)">Delete</button>
+      </div>
+      <div>
         <button @click="toggleView(index)">{{ review.showMore ? 'Less' : 'More' }}</button>
+      </div>
       </div>
     </div>
   </div>
@@ -59,6 +63,10 @@ export default {
 </script>
 
 <style scoped>
+.actions{
+  display: flex;
+  justify-content: space-between;
+}
 .review-header{
   display: flex;
   justify-content: space-between;
