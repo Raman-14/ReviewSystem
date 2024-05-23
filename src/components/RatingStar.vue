@@ -1,9 +1,10 @@
 <template>
   <div class="rating-star">
+    <span>{{ ratingHeading }}</span>
     <span 
-      v-for="star in 5" 
+      v-for="star in totalStar" 
       :key="star" 
-      :class="{'filled': star <= hoverRating || (hoverRating === 0 && star <= currentRating)}"
+      :class="{ 'filled': star <= hoverRating || (hoverRating === 0 && star <= currentRating) }"
       @click="setRating(star)"
       @mouseover="setHoverRating(star)"
       @mouseleave="setHoverRating(0)"
@@ -12,14 +13,33 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 
 export default {
   name: 'RatingStar',
   emits: ['update:rating'],
-  setup(_, { emit }) {
-    const currentRating = ref(0);
+  props: {
+    ratingHeading: {
+      type: String,
+      required: true
+    },
+    selectStars: {
+      type: Number,
+      required: true
+    }
+  },
+  setup(props, { emit }) {
+    const currentRating = ref(props.selectStars);
     const hoverRating = ref(0);
+    const totalStar = 5;
+
+    onMounted(() => {
+      currentRating.value = props.selectStars;
+    });
+
+    watch(() => props.selectStars, (newRating) => {
+      currentRating.value = newRating;
+    });
 
     const setRating = (rating) => {
       currentRating.value = rating;
@@ -34,7 +54,8 @@ export default {
       currentRating,
       hoverRating,
       setRating,
-      setHoverRating
+      setHoverRating,
+      totalStar
     };
   }
 }
@@ -43,6 +64,7 @@ export default {
 <style scoped>
 .rating-star {
   display: flex;
+  align-items: center;
 }
 
 .rating-star span {

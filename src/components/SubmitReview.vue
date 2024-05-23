@@ -3,7 +3,7 @@
     <div>
       <p class="rate">Rate & Review Camp</p>
     </div>
-    <RatingStar @update:rating="updateRating" class="rating" />
+
     <div class="textArea">
       <textarea 
         v-model="inputText" 
@@ -11,8 +11,15 @@
         rows="8" 
         cols="50">
       </textarea>
-      <button @click="submitReview">Submit</button>
     </div>
+    <button @click="submitReview">Submit</button>
+
+    <div class="ratings">
+      <div v-for="(heading, index) in headings" :key="index" class="rating">
+        <RatingStar :ratingHeading="heading" :selectStars="selectedStars[index]" @update:rating="updateRating(index, $event)" />
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -25,25 +32,35 @@ export default {
   components: {
     RatingStar
   },
+  emits: ['submit-review'],
   setup(props, { emit }) {
     const inputText = ref('');
-    const currentRating = ref(0);
+    const headings = ref(['Service', 'Quality', 'Value', 'Cleanliness']);
+    const selectedStars = ref([0, 0, 0, 0]);
 
-    const updateRating = (rating) => {
-      currentRating.value = rating;
+    const updateRating = (index, rating) => {
+      selectedStars.value[index] = rating;
     };
 
     const submitReview = () => {
-      if (inputText.value.trim() && currentRating.value > 0) {
-        emit('submit-review', { text: inputText.value, rating: currentRating.value });
-        inputText.value = '';  // Clear the textarea after submitting
-        currentRating.value = 0; // Reset the rating after submitting
+      if (inputText.value.trim() && selectedStars.value.some(rating => rating > 0)) {
+        const review = {
+          content: inputText.value,
+          rating1: selectedStars.value[0],
+          rating2: selectedStars.value[1],
+          rating3: selectedStars.value[2],
+          rating4: selectedStars.value[3],
+        };
+        emit('submit-review', review);
+        inputText.value = '';
+        selectedStars.value = [0, 0, 0, 0];
       }
     };
 
     return {
       inputText,
-      currentRating,
+      headings,
+      selectedStars,
       submitReview,
       updateRating
     };
@@ -67,7 +84,7 @@ export default {
   font-size: 21px;
   font-weight: 200;
   border-radius: 24px;
-  box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
+  box-sizing: border-box;
   padding: 10px;
   background-color: #d9d9d9;
 }
@@ -87,8 +104,24 @@ button {
   margin-top: 10px;
   font-family: 'Mulish', sans-serif;
   font-size: 16px;
-  padding: 5px 10px;
+  padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
+  background-color: #B73C12;
+  color: white;
+  border: none;
+  align-self: flex-start;
+}
+
+.ratings {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.rating {
+  flex: 1 1 200px;
+  margin-top: 20px;
 }
 </style>

@@ -1,0 +1,26 @@
+[
+        {
+            "review_id": 1,
+            "profile_img": "https://source.unsplash.com/random/200x200?sig=1",
+            "profile_name": "Mary Anna",
+            "profile_location": "US",
+            "created_at": "2013-08-21",
+            "content": "Lorem is the rgea ghosh tehgei",
+            "rating1": 4,
+            "rating2": 3,
+            "rating3": 2,
+            "rating4": 1
+        },
+        {
+            "review_id": 2,
+            "profile_img": "https://source.unsplash.com/random/200x200?sig=1",
+            "profile_name": "John Jor",
+            "profile_location": "UK",
+            "created_at": "2024-08-21",
+            "content": "Lorem is the rgea ghosh tehgei",
+            "rating1": 4,
+            "rating2": 3,
+            "rating3": 2,
+            "rating4": 1
+        }
+    ]
