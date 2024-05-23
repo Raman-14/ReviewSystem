@@ -2,16 +2,24 @@
   <div>
     <div v-for="(review, index) in reviews" :key="index" class="review-card">
       <div class="review-header">
+
         <div class="profile-info">
           <img src="https://source.unsplash.com/random/200x200?sig=1" alt="Profile Image" class="profile-img" />
+
           <div class="profile-details">
+
+            <div>
             <p class="profileName">{{review.profile_name}}</p>
             <p>{{review.profile_location}}</p>
+            </div>
+
           </div>
         </div>
+
         <div class="date">
           <p>{{review.created_at}}</p>
         </div>
+
       </div>
       <div class="review-content" v-if="review.showMore || !review.showMore">
         <p>{{ review.content }}</p>
@@ -51,6 +59,10 @@ export default {
 </script>
 
 <style scoped>
+.review-header{
+  display: flex;
+  justify-content: space-between;
+}
 .profileName{
   color: #B73C12;
   font-size: 22.32px;
@@ -77,7 +89,7 @@ export default {
 }
 
 .date {
-  margin-left: auto;
+ 
 }
 
 .review-content {

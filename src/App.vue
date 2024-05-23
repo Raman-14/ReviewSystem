@@ -29,9 +29,15 @@ export default {
     };
   },
   methods: {
-    addReview(review) {
-      this.reviews.push(review);
-    },
+     addReview(review) {
+    // Add a new review object to the reviews array
+    this.reviews.push({
+      profile_name: "John Jor",
+      profile_location: "UK",
+      created_at: "2024-08-21",
+      ...review // Spread operator to include properties from the passed review object
+    });
+     },
     deleteReview(index) {
       // Remove the review from the array
       this.reviews.splice(index, 1);

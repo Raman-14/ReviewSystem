@@ -1,6 +1,6 @@
 <template>
+    <div>{{ ratingHeading }}</div>
   <div class="rating-star">
-    <span>{{ ratingHeading }}</span>
     <span 
       v-for="star in totalStar" 
       :key="star" 
